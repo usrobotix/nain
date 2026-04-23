@@ -59,7 +59,7 @@ $my_query_opinions = new wp_query($args_opinions);
                                 $my_query_news->the_post();
                                 ?>
                                 <div class="item">
-                                    <a href="<?php echo get_permalink($post->ID); ?>">
+                                    <a href="<?php echo esc_url(get_permalink($post->ID)); ?>" data-load-flag="news" data-post-id="<?php echo esc_attr(get_the_ID()); ?>">
                                         <div class="n_date"><?php echo get_the_date('j.m.Y'); ?></div>
                                         <p><?php echo $post->post_title; ?></p>
                                         <div class="n_img" style="background:url('<?php echo get_the_post_thumbnail_url($post->ID, array(350, 233))?>')">
@@ -86,7 +86,7 @@ $my_query_opinions = new wp_query($args_opinions);
 
             ?>
            <div class="item">
-                    <a href="<?php echo get_permalink(); ?>">
+                    <a href="<?php echo esc_url(get_permalink()); ?>" data-load-flag="press" data-post-id="<?php echo esc_attr(get_the_ID()); ?>">
 						<?php $image_array = get_post_meta( get_the_ID(), 'press_logo', false );
 						
 						$thumbimg = wp_get_attachment_image( $image_array[0], 'large');?>
@@ -155,7 +155,7 @@ $my_query_opinions = new wp_query($args_opinions);
                 <?php if(get_the_category()[0]->slug == 'news' || get_the_category()[0]->slug == 'opinions'):?>
 
                         <div class="col-lg-3">
-                    <a href="<?php echo get_permalink(); ?>">
+                    <a href="<?php echo esc_url(get_permalink()); ?>" data-load-flag="news" data-post-id="<?php echo esc_attr(get_the_ID()); ?>">
                         <div class="n_date"><?php echo get_the_date('j.m.Y'); ?></div>
                         <p><?php the_title(); ?></p>
                         <div class="n_img" style="background:url('<?php echo get_the_post_thumbnail_url($post->ID, array(350, 233))?>')">
@@ -197,7 +197,7 @@ $my_query_opinions = new wp_query($args_opinions);
 
             ?>
            <div class="col-lg-3">
-                    <a href="<?php echo get_permalink(); ?>">
+                    <a href="<?php echo esc_url(get_permalink()); ?>" data-load-flag="press" data-post-id="<?php echo esc_attr(get_the_ID()); ?>">
 						<?php $image_array = get_post_meta( get_the_ID(), 'press_logo', false );
 						
 						$thumbimg = wp_get_attachment_image( $image_array[0], 'large');?>
