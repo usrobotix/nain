@@ -7,6 +7,9 @@ function load_posts()
 {
     $args = json_decode(stripslashes($_POST["query"] ?? ''), true);
     $flag = sanitize_key($_POST["flag"] ?? '');
+    if (!in_array($flag, ['news', 'press'], true)) {
+        $flag = '';
+    }
     if (!is_array($args)) {
         $args = [];
     }
@@ -45,7 +48,9 @@ $args['ignore_sticky_posts'] = 1;
     // анти-дубли: исключаем уже показанные
     $shown_ids_raw = $_POST['shown_ids'] ?? '';
     if (is_string($shown_ids_raw) && $shown_ids_raw !== '') {
-        $shown_ids = array_filter(array_map('absint', explode(',', $shown_ids_raw)));
+        $shown_ids = array_filter(array_map('intval', explode(',', $shown_ids_raw)), static function ($id) {
+            return $id > 0;
+        });
         if (!empty($shown_ids)) {
             $args['post__not_in'] = isset($args['post__not_in'])
                 ? array_values(array_unique(array_merge((array)$args['post__not_in'], $shown_ids)))
@@ -59,7 +64,7 @@ $args['ignore_sticky_posts'] = 1;
         while ($posts->have_posts()) : $posts->the_post();
             ?>
             <div class="col-lg-3">
-                <a href="<?php echo get_permalink(); ?>" data-load-flag="<?php echo esc_attr($flag); ?>" data-post-id="<?php echo get_the_ID(); ?>">
+                <a href="<?php echo esc_url(get_permalink()); ?>" data-load-flag="<?php echo esc_attr($flag); ?>" data-post-id="<?php echo esc_attr(get_the_ID()); ?>">
                     <?php if ($flag === 'press'): ?>
                         <?php
                         $image_array = get_post_meta(get_the_ID(), 'press_logo', false);

@@ -142,7 +142,7 @@ jQuery(function () {
         new Set(
           $(`a[data-load-flag="${flag}"][data-post-id]`)
             .map(function () {
-              return parseInt($(this).attr("data-post-id"), 10);
+              return parseInt($(this).attr("data-post-id"), 10) || 0;
             })
             .get()
             .filter((id) => Number.isInteger(id) && id > 0)
