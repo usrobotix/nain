@@ -138,11 +138,23 @@ jQuery(function () {
       if (flag == "news") current_page = current_page_news;
       if (flag == "press") current_page = current_page_press;
 
+      const shownIds = Array.from(
+        new Set(
+          $(`a[data-load-flag="${flag}"][data-post-id]`)
+            .map(function () {
+              return parseInt($(this).attr("data-post-id"), 10);
+            })
+            .get()
+            .filter((id) => Number.isInteger(id) && id > 0)
+        )
+      );
+
       const data = {
         action: "load_more",
         query: button.attr("data-param-posts"),
         page: current_page,
         flag: flag,
+        shown_ids: shownIds.join(","),
       };
 
       $.ajax({
